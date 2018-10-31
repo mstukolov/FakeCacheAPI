@@ -1,0 +1,217 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Citizen",
+  "version": "0.7",
+  "description": "A Citizen Composite Object(http://www.jsonschema2pojo.org/)",
+  "type": "object",
+  "properties": {
+    "last_update_tx_id":{"type": "string", "title": "<Уникальный сквозной идентификатор операции для целей логирования>"},
+    "etalon_id": {"type": "string", "title": "<Уникальный код гражданина в МДМ-системе>"},
+    "temporary_id": {"type": "string", "title":"<На стороне StageApp генерируется временный id для связи объектов при upsert в Юнидата>"},
+    "pending": {"type": "boolean", "title":"<Признак тех. профиля. true - технический, false - эталон>"},
+    "birth_dt": {"type": "string", "format": "date-time"},
+    "gender_tp_code" : { "type":"string", "title": "<Пол>"},
+    "birth_place_line_one" : { "type":"string", "title": "<Место рождения>"},
+    "rip_date" : { "type":"string", "format": "date-time", "title": "<Дата смерти>"},
+    "ext_upd_date": {"title":"<Дата последнего обновления из системы-источника>", "type":"string"},
+    "has_privilege": {"title":"<Наличие льгот ЕРЛ>", "type":"boolean"},
+    "privilege_control":{"title": "<Статус нахождения на контроле в ЕРЛ>", "type":"boolean"},
+    "pname_ext_upd_date":{"title": "<Дата последнего обновления блока имени, поступившая из внешней системы>", "type":"string", "format": "date-time"},
+    "del_sign":{ "title":"<Флаг удаления (только в updateEntry)>", "type":"boolean"},
+    "spec_type":{ "title":"<Признак основного профиля(0-основной, 1-родственник)>", "type":"integer"},
+    "last_update_dt":{"title":"<Дата последнего обновления в системе>", "type":"string", "format": "date-time"},
+    "dirtystage":{"title": "<Состояние профиля>", "type":"integer"},
+    "validationmask":{"title":"<Атрибут отображения статуса валидации>", "type":"integer"},
+    "failedmask":{"title":"<Атрибут отображения результата валидации>", "type":"integer"},
+    "sourcechannel":{"title":"<Система источник>", "type":"integer"},
+    "last_name":{"title":"<Фамилия>", "type":"string"},
+    "given_name_one":{"title":"<Имя>", "type":"string"},
+    "given_name_two":{"title":"Отчество", "type":"string"},
+    "start_dt":{"title":"<Время начала действия>", "type":"string", "format": "date-time"},
+    "citizen_relatives": {
+      "type": "array",
+      "title": "Профили родственников гражданина",
+      "items": {
+        "title": "citizen_relatives",
+        "type": "object",
+        "properties": {
+          "etalon_id": { "type": "string", "title": "<первичный ключ МДМ>"},
+          "rel_tp_cd": { "type": "string", "title": "<Тип родственной связи>"},
+          "access_level" : { "type": "integer", "title": "<Уровень доступа Главного профиля к родственному>"},
+          "start_dt": { "type": "string", "title": "<Время начала действия связи>", "format": "date-time"},
+          "last_update_dt": { "type": "string", "title": "<Дата последнего обновления>", "format": "date-time"}
+        }
+      }
+    },
+    "documents": {
+      "type": "array",
+      "title": "Документы гражданина",
+      "items": {
+        "type": "object",
+        "title": "Document",
+        "properties": {
+          "etalon_id":{"title":"<первичный ключ МДМ>", "type":"string"},
+          "temporary_id": {"type": "string", "title":"<На стороне StageApp генерируется временный id для связи объектов при upsert в Юнидата>"},
+          "id_tp_cd":{"title":"Ссылка на тип документа", "type":"string"},
+          "end_dt":{"title":"<Дата прекращения действия документа>", "type":"string", "format": "date-time"},
+          "identification_series":{ "title":"<Серия документа>","type":"string"},
+          "ref_num":{"title": "<Номер документа>", "type":"string"},
+          "start_dt":{"title": "<Дата выдачи>", "type":"string", "format": "date-time"},
+          "identification_issuer":{"title": "<Место выдачи>", "type":"string"},
+          "comment":{"title": "<В ЕЛК комментарий к ОМС родственника>", "type":"string"},
+          "identification_issuer_code":{"title": "<Код подразделения, выдавшего документ>", "type":"string"},
+          "identification_passport_birth_place":{"title": "<Место рождения по паспорту>", "type":"string"},
+          "last_verified_dt":{"title":"<Дата последней проверки>", "type":"string", "format": "date-time"},
+          "last_update_dt":{"title":"<Дата последнего обновления в системе>", "type":"string", "format": "date-time"},
+          "expiry_dt":{"title":"<Дата окончания действия>", "type":"string", "format": "date-time"},
+          "assigned_by":{"title":"<Название страховой компании>", "type":"string"},
+          "ext_upd_date":{"title":"<Дата последнего обновления, поступившая из системы-источника>", "type":"string", "format": "date-time"},
+          "code" : {"title":"<тип родственника в формате ЕЛК>", "type":"string"},
+          "origin_block" : {"title":"<название исходного блок по ОМС из ЕЛК>", "type":"string"}
+        }
+      }
+    },
+    "vehicles": {
+      "type": "array",
+      "title": "Транспортные средства",
+      "items":{
+        "type": "object",
+        "title": "Vehicles",
+        "properties": {
+          "etalon_id":{"title":"<первичный ключ МДМ>", "type":"string"},
+          "temporary_id": {"type": "string", "title":"<На стороне StageApp генерируется временный id для связи объектов при upsert в Юнидата>"},
+          "del_sign":{"title":"<Флаг удаления (только в updateEntry)>", "type":"boolean"},
+          "chronicle_id":{"title":"<Уникальный номер в ПЦВП>", "type":"string"},
+          "description":{"title":"<Описание>", "type":"string"},
+          "vin_number":{"title":"<Идентификационный номер транспортного средства (VIN)>", "type":"string"},
+          "sts_number":{"title":"<Серия и номер свидетельства о регистрации>", "type":"string"},
+          "reg_number":{"title":"<Номер государственного регистрационного знака>", "type":"string"},
+          "pts_number":{"title":"<Серия и номер паспорта транспортного средства (ПТС)>", "type":"string"},
+          "last_update_dt":{"title":"<Дата последнего обновления>", "type":"string", "format": "date-time"},
+          "vehicles_docs_rel": {
+            "type": "array",
+            "title": "vehicles_docs_rel",
+            "items": {
+              "type": "object",
+              "title": "VehicleDocuments",
+              "properties": {
+                "document_id":{"title":"<первичный ключ документа ЮниДата>", "type":"string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "addresses": {
+      "type": "array",
+      "title": "Связь Гражданина с адресами 1:N, Может быть пустой null",
+      "items":{
+        "type": "object",
+        "title": "Address",
+        "properties": {
+          "etalon_id":{"title":"<первичный ключ МДМ>", "type":"string"},
+          "temporary_id": {"type": "string", "title":"<На стороне StageApp генерируется временный id для связи объектов при upsert в Юнидата>"},
+          "external_id":{"title":"<идентификатор внешней системы>", "type":"string"},
+          "end_dt":{"title":"<Дата прекращения действия актуальности>", "type":"string", "format": "date-time"},
+          "addr_line_one":{"title":"<Адресная строка 1>", "type":"string"},
+          "addr_line_two":{"title":"<Адресная строка 2>", "type":"string"},
+          "addr_line_three":{"title":"<Адресная строка 3>", "type":"string"},
+          "unom":{"title":"<UNOM>", "type":"string"},
+          "unad":{"title":"<UNAD>", "type":"string"},
+          "moscow_district_id":{"title":"<Код района>", "type":"string"},
+          "moscow_district_name":{"title":"<Район>", "type":"string"},
+          "street_id":{"title":"<Улица ID>", "type":"string"},
+          "street_omk":{"title":"<Улица ОМК>", "type":"string"},
+          "street_name_ex":{"title":"<Улица NAME>", "type":"string"},
+          "building_name":{"title":"<Дом (составной)>", "type":"string"},
+          "house_no":{"title":"<Дом (номер)>", "type":"string"},
+          "corpus_no":{"title":"<Дом (корпус)>", "type":"string"},
+          "stroenie_no":{"title":"<Дом (строение)>", "type":"string"},
+          "residence_num":{"title":"<Квартира>", "type":"string"},
+          "moscow_area_name":{"title":"<Округ>", "type":"string"},
+          "moscow_area_ext_id":{"title":"<Код округа>", "type":"string"},
+          "region":{"title":"<Регион>", "type":"string"},
+          "city_name":{"title":"<Город>", "type":"string"},
+          "kladr_id":{"title":"<КЛАДР ID>", "type":"string"},
+          "room_no":{"title":"<Номер помещения>", "type":"string"},
+          "postal_code":{"title":"<Индекс>", "type":"string"},
+          "last_verified_date":{"title":"<Дата проверки>", "type":"string", "format": "date-time"},
+          "last_update_dt":{"title":"<Дата последнего обновления>", "type":"string", "format": "date-time"}
+        }
+      }
+    },
+    "gkupays": {
+      "type": "array",
+      "title": "Gkupay",
+      "items": {
+        "type": "object",
+        "title": "Gkupay",
+        "properties": {
+          "gkupay_address_rel":{"title":"Ссылка на адрес etalon_id>", "type":"string"},
+          "etalon_id":{"title":"<первичный ключ МДМ>", "type":"string"},
+          "temporary_id": {"type": "string", "title":"<На стороне StageApp генерируется временный id для связи объектов при upsert в Юнидата>"},
+          "entity_active_ind":{"title":"<Флаг удаления (только в updateEntry)>", "type":"boolean"},
+          "chronicle_id":{"title":"<Уникальный номер в ПЦВП>", "type":"string"},
+          "epd":{"title":"<Номер финансового лицевого счёта (ЕПД)>", "type":"string"},
+          "mesaccount":{"title":"<Номер лицевого счёта (Мосэнергосбыт)>", "type":"string"},
+          "mesmeter":{"title":"<Номер прибора учёта (Мосэнергосбыт)>", "type":"string"},
+          "phone":{"title":"<Номер телефона>", "type":"string"},
+          "epd_comment":{"title":"<Комментарий>", "type":"string"},
+          "last_update_dt":{"title":"<Дата последнего обновления>", "type":"string", "format": "date-time"}
+        }
+      }
+    },
+    "users": {
+      "type": "array",
+      "title": "Связь Гражданина с пользователями систем 1:N",
+      "items":{
+        "type": "object",
+        "title": "User",
+        "properties": {
+          "etalon_id":{"title":"<первичный ключ ЮниДата>", "type":"string"},
+          "temporary_id": {"type": "string", "title":"<На стороне StageApp генерируется временный id для связи объектов при upsert в Юнидата>"},
+          "id_type":{"title":"<Тип(ЕРЛ, SSO, ИСИ, ЕИРЦ)>", "type":"string"},
+          "id_value":{"title":"<Значение идентификатора>", "type":"string"},
+          "enabled":{"title":"<Признак Удален>", "type":"boolean"},
+          "is_confirmed_offline":{"title":"<Признак подтвержден>", "type":"boolean"},
+          "last_update_dt":{"title":"<Дата последнего обновления>", "type":"string", "format": "date-time"},
+          "ext_upd_date":{"title":"<Дата последнего обновления, поступившая из системы-источника>", "type":"string", "format": "date-time"}
+        }
+      }
+    },
+    "contacts": {
+      "type": "array",
+      "title": "Связь Гражданина с Контактами 1:N",
+      "items":{
+        "type": "object",
+        "title": "Contact",
+        "properties": {
+          "etalon_id":{"title":"<первичный ключ МДМ>", "type":"string"},
+          "external_id":{"title":"<идентификатор внешней системы>", "type":"string"},
+          "temporary_id": {"type": "string", "title":"<На стороне StageApp генерируется временный id для связи объектов при upsert в Юнидата>"},
+          "cont_meth_cat_cd":{"title":"<Тип контакта>", "type":"string"},
+          "ref_num":{"title":"<Содержание контакта (телефон, e-mail)>", "type":"string"},
+          "last_update_dt":{"title":"<Дата последнего обновления>", "type":"string", "format": "date-time"}
+        }
+      }
+    },
+    "escredentials": {
+      "type": "array",
+      "title": "Связь Гражданина с реестром Доступ к внешним системам 1:N",
+      "items":{
+        "type": "object",
+        "title": "Escredential",
+        "properties": {
+          "etalon_id":{"title":"<первичный ключ МДМ>", "type":"string"},
+          "temporary_id": {"type": "string", "title":"<На стороне StageApp генерируется временный id для связи объектов при upsert в Юнидата>"},
+          "escred_tp_cd":{"title":"<Тип записи в ESCREDENTIALS>", "type":"string"},
+          "description":{"title":"<Название учетной записи>", "type":"string"},
+          "login":{"title":"<Логин>", "type":"string"},
+          "password":{"title":"<Пароль>", "type":"string"},
+          "chronicle_id":{"title":"<ID записи>", "type":"string"},
+          "last_update_dt":{"title":"<Дата последнего обновления>", "type":"string", "format": "date-time"}
+        }
+      }
+    }
+  }
+}
